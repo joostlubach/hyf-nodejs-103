@@ -10,7 +10,7 @@ function TodoList(items) {
  *
  * Usage:
  *
- *   TodoList.load(function (list) {
+ *   TodoList.load(function (error, list) {
  *     // Variable `list` is now an instance of the TodoList class.
  *
  *   });
@@ -31,6 +31,18 @@ TodoList.load = function (callback) {
   });
 }
 
+/**
+ * Saves this list.
+ *
+ * Usage:
+ *
+ *   var list = new TodoList(...); // Or result from TodoList.load().
+ *   list.save(function (error) {
+ *     if (error) {
+ *       ...
+ *     }
+ *   });
+ */
 TodoList.prototype.save = function (callback) {
   var data = JSON.stringify(this.items);
   fs.writeFile(dataFile, data, function (error) {
@@ -42,6 +54,14 @@ TodoList.prototype.save = function (callback) {
   });
 }
 
+/**
+ * Adds an item to the list. This is a synchronous function.
+ *
+ * @param description
+ *   The description of the to-do item to add.
+ * @returns
+ *   The added item object.
+ */
 TodoList.prototype.addItem = function (description) {
   var item = {
     description: description,
